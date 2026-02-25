@@ -18,7 +18,7 @@ const CustomerList = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        "https://gasmachineserestaurantrms.onrender.com/api/auth/customers-list",
+        "https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/customers-list",
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setCustomers(res.data);
