@@ -452,18 +452,61 @@ body {
 }
 
 /* ========== GLOBAL CARD / COMPONENT UPGRADE ========== */
-.card {
+
+/* Default card style - pearl background for plain cards only */
+.card:not([class*="bg-"]) {
   border: 1px solid var(--mist) !important;
   border-radius: var(--radius) !important;
   box-shadow: var(--shadow-sm) !important;
   background: var(--pearl) !important;
 }
 
+/* Subtle hover lift for all cards */
 .card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md) !important;
   transition: all var(--transition);
 }
+
+/* Restore Bootstrap colored cards - prevent pearl override */
+.card.bg-primary  { background-color: #0d6efd !important; }
+.card.bg-secondary { background-color: #6c757d !important; }
+.card.bg-success  { background-color: #198754 !important; }
+.card.bg-danger   { background-color: #dc3545 !important; }
+.card.bg-warning  { background-color: #ffc107 !important; }
+.card.bg-info     { background-color: #0dcaf0 !important; }
+.card.bg-dark     { background-color: #212529 !important; }
+.card.bg-light    { background-color: #f8f9fa !important; }
+
+/* Ensure text contrast on colored cards */
+.card.bg-primary,
+.card.bg-secondary,
+.card.bg-success,
+.card.bg-danger,
+.card.bg-dark {
+  color: #fff !important;
+  border: none !important;
+}
+
+.card.bg-warning { color: #212529 !important; border: none !important; }
+.card.bg-info    { color: #000 !important; border: none !important; }
+.card.bg-light   { color: #212529 !important; border: 1px solid var(--mist) !important; }
+
+/* Card text children on colored cards stay white */
+.card.bg-primary .card-body,
+.card.bg-secondary .card-body,
+.card.bg-success .card-body,
+.card.bg-danger .card-body,
+.card.bg-dark .card-body {
+  color: #fff !important;
+}
+
+/* Colored card headers */
+.card-header.bg-success { background-color: #198754 !important; color: #fff !important; border: none !important; }
+.card-header.bg-danger  { background-color: #dc3545 !important; color: #fff !important; border: none !important; }
+.card-header.bg-warning { background-color: #ffc107 !important; color: #212529 !important; border: none !important; }
+.card-header.bg-primary { background-color: #0d6efd !important; color: #fff !important; border: none !important; }
+.card-header.bg-dark    { background-color: #212529 !important; color: #fff !important; border: none !important; }
 
 .btn-primary {
   background: var(--crimson) !important;
@@ -493,13 +536,17 @@ body {
 }
 
 .table thead th {
-  background: var(--ink) !important;
-  color: var(--gold-light) !important;
   font-family: 'DM Sans', sans-serif;
   font-weight: 600;
   font-size: 0.8rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Only style plain table headers (no explicit Bootstrap bg class) */
+.table thead:not([class*="bg-"]) th:not([class*="bg-"]) {
+  background: var(--ink);
+  color: var(--gold-light);
   border: none !important;
 }
 
