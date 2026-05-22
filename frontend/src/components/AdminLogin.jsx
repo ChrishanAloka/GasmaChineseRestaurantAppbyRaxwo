@@ -17,7 +17,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/login", { email, password });
+      const res = await axios.post("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/login", { email, password });
       const data = res.data;
 
       if (data.role !== "admin") {

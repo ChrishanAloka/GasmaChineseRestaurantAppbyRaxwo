@@ -15,7 +15,7 @@ const KitchenLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/login", {
+      const res = await axios.post("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/login", {
         email,
         password,
       });
