@@ -50,3 +50,7 @@ ios/Pods/
 android/.gradle/
 android/app/build/
 
+/backups
+*.zip
+/GasmaApp_Redesigned
+*.rar

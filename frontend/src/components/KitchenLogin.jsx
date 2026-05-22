@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
+import "./LoginStyles.css";
 
 const KitchenLogin = () => {
   const [email, setEmail] = useState("");
@@ -25,25 +26,31 @@ const KitchenLogin = () => {
         return;
       }
 
-      login(data); // Comes from useAuth()
-      navigate("/kitchen"); // Redirect after login
+      login(data);
+      navigate("/kitchen");
     } catch (err) {
       alert("Login failed. Please check your credentials.");
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-      <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%" }}>
-        <h4 className="text-center mb-4">Kitchen Login</h4>
-        <form onSubmit={handleLogin}>
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-header">
+          <span className="login-role-badge kitchen">Kitchen Portal</span>
+          <h2 className="login-title">Sign In</h2>
+        </div>
+
+        <div className="login-divider" />
+
+        <form onSubmit={handleLogin} className="login-form">
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <input
               type="email"
               className="form-control"
               id="email"
-              placeholder="Enter email"
+              placeholder="kitchen@gasma.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -55,28 +62,21 @@ const KitchenLogin = () => {
               type="password"
               className="form-control"
               id="password"
-              placeholder="Enter password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
-            Login
-          </button>
+          <button type="submit" className="login-submit-btn">Sign In</button>
         </form>
 
-        <hr />
-
-        <p className="text-center mb-0">
-          Don't have an account?{" "}
-          <Link to="/signup?role=kitchen" className="text-decoration-none">
-            Sign Up
-          </Link>
-        </p>
-        <p className="mt-3 text-center">
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </p>
+        <div className="login-footer">
+          <p className="login-footer-text">Don't have an account?{" "}
+            <Link to="/signup?role=kitchen" className="login-footer-link">Sign Up</Link>
+          </p>
+          <Link to="/forgot-password" className="login-footer-link">Forgot your password?</Link>
+        </div>
       </div>
     </div>
   );

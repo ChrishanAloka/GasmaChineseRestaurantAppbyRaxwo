@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
+import "./LoginStyles.css";
 
 const CashierLogin = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +12,6 @@ const CashierLogin = () => {
   const { login } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,8 +26,8 @@ const CashierLogin = () => {
         return;
       }
 
-      login(data); // Comes from useAuth()
-      navigate("/cashier"); // Redirect after login
+      login(data);
+      navigate("/cashier");
     } catch (err) {
       alert("Login failed. Please check your credentials.");
       setLoading(false);
@@ -35,17 +35,23 @@ const CashierLogin = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
-      <div className="card shadow-sm p-4" style={{ maxWidth: "400px", width: "100%" }}>
-        <h4 className="text-center mb-4">Cashier Login</h4>
-        <form onSubmit={handleLogin}>
+    <div className="login-page">
+      <div className="login-card">
+        <div className="login-header">
+          <span className="login-role-badge cashier">Cashier Portal</span>
+          <h2 className="login-title">Sign In</h2>
+        </div>
+
+        <div className="login-divider" />
+
+        <form onSubmit={handleLogin} className="login-form">
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email address</label>
+            <label htmlFor="email" className="form-label">Email Address</label>
             <input
               type="email"
               className="form-control"
               id="email"
-              placeholder="Enter email"
+              placeholder="cashier@gasma.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -58,40 +64,29 @@ const CashierLogin = () => {
               type="password"
               className="form-control"
               id="password"
-              placeholder="Enter password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
             />
           </div>
-          <button
-            type="submit"
-            className="btn btn-primary w-100 d-flex align-items-center justify-content-center"
-            disabled={loading} // 👈 Disable button while loading
-          >
+          <button type="submit" className="login-submit-btn" disabled={loading}>
             {loading ? (
               <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Logging in...
+                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Signing in...
               </>
-            ) : (
-              "Login"
-            )}
+            ) : "Sign In"}
           </button>
         </form>
 
-        <hr />
-
-        <p className="text-center mb-0">
-          Don't have an account?{" "}
-          <Link to="/signup?role=cashier" className="text-decoration-none">
-            Sign Up
-          </Link>
-        </p>
-        <p className="mt-3 text-center">
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </p>
+        <div className="login-footer">
+          <p className="login-footer-text">Don't have an account?{" "}
+            <Link to="/signup?role=cashier" className="login-footer-link">Sign Up</Link>
+          </p>
+          <Link to="/forgot-password" className="login-footer-link">Forgot your password?</Link>
+        </div>
       </div>
     </div>
   );

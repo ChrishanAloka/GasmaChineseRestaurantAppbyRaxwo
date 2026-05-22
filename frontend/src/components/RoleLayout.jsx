@@ -155,9 +155,12 @@ const RoleLayout = () => {
 
   return (
     <div className="layout d-flex">
+      {/* Mobile overlay backdrop */}
+      {isMobile && sidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
+      )}
       {!isMobile || sidebarOpen ? (
         <aside 
-        // className={`sidebar ${sidebarOpen ? "open" : "collapsed"}`}
         className={`sidebar ${getSidebarClass()}`}
         onMouseEnter={() => !isMobile && !sidebarOpen && setIsHovered(true)}
         onMouseLeave={() => !isMobile && !sidebarOpen && setIsHovered(false)}
@@ -169,13 +172,6 @@ const RoleLayout = () => {
                   src="/logo.jpg"
                   alt="Logo"
                   className="sidebar-logo rounded-circle me-2"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    objectFit: "cover",
-                    border: "2px solid #fff",
-                    boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-                  }}
                 />
                 <h3 className="justify-content-left sidebar-title mb-0">Gasma Chinese Restaurant-RMS</h3>
               </>
