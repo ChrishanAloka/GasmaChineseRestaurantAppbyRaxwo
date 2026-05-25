@@ -275,12 +275,14 @@ const SupplierRegistration = () => {
                   <td>{s.email || "-"}</td>
                   <td>{s.address || "-"}</td>
                   <td className="text-center">
-                    <button className="btn btn-sm btn-primary me-2" onClick={() => openEditModal(s)}>
-                      ✏️ Edit
-                    </button>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDelete(s._id)}>
-                      🗑️ Delete
-                    </button>
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-sm btn-primary me-2" onClick={() => openEditModal(s)}>
+                        ✏️ Edit
+                      </button>
+                      <button className="btn btn-sm btn-danger" onClick={() => handleDelete(s._id)}>
+                        🗑️ Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

@@ -364,20 +364,22 @@ const OtherIncome = () => {
                     <td>{income.paymentMethod || "Cash"}</td>
                     <td>{income.description || "-"}</td>
                     <td className="text-center">
-                      <button
-                        className="btn btn-sm btn-success me-2"
-                        onClick={() => openEditModal(income)}
-                        title="Edit Income"
-                      >
-                        ✏️ Edit
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleDelete(income._id)}
-                        title="Delete Income"
-                      >
-                        🗑️ Delete
-                      </button>
+                      <div className="d-flex gap-2">
+                        <button
+                          className="btn btn-sm btn-success me-2"
+                          onClick={() => openEditModal(income)}
+                          title="Edit Income"
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(income._id)}
+                          title="Delete Income"
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

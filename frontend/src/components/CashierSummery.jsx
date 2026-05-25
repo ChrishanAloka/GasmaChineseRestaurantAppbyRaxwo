@@ -945,40 +945,46 @@ const CashierSummary = () => {
           {
             label: "Starting Cash Float",
             value: `${symbol}${formatCurrency(startingCashNum)}`,
-            color: "secondary",
+            bg: "#546E7A",   // blue-grey — neutral starting point
             icon: "💵",
           },
           {
             label: "Cash from Orders",
             value: `${symbol}${formatCurrency(totalCashFromOrders)}`,
-            color: "success",
+            bg: "#1976D2",   // blue — order revenue
             icon: "🛒",
           },
           {
             label: "Total Cash In",
             value: `${symbol}${formatCurrency(totalCashIn)}`,
-            color: "primary",
+            bg: "#2E7D32",   // green — money coming in
             icon: "📥",
           },
           {
             label: "Total Cash Out",
             value: `${symbol}${formatCurrency(totalCashOut)}`,
-            color: "danger",
+            bg: "#C62828",   // red — money going out
             icon: "📤",
           },
           {
             label: "Expected Closing Cash",
             value: `${symbol}${formatCurrency(expectedClosingCash)}`,
-            color: "info",
+            bg: "#4527A0",   // purple — final balance
             icon: "✅",
           },
         ].map((card, idx) => (
-          <div className="col-md-6 col-lg-4" key={idx}>
-            <div className={`card bg-${card.color} text-white shadow-sm h-100`}>
-              <div className="card-body text-center">
-                <div className="fs-3">{card.icon}</div>
-                <h6 className="mt-2 fw-bold">{card.label}</h6>
-                <h4 className="fw-bold">{card.value}</h4>
+          <div className="col-6 col-md-4" key={idx}>
+            <div
+              className="card stat-card text-white shadow h-100"
+              style={{
+                background: `linear-gradient(135deg, ${card.bg} 0%, ${card.bg}BB 100%)`,
+                borderTop: "3px solid rgba(255,255,255,0.25)",
+              }}
+            >
+              <div className="card-body text-center py-3 px-2">
+                <div style={{ fontSize: "1.6rem", marginBottom: "4px" }}>{card.icon}</div>
+                <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", opacity: 0.85, marginBottom: "4px" }}>{card.label}</div>
+                <div style={{ fontSize: "1.2rem", fontWeight: 700 }}>{card.value}</div>
               </div>
             </div>
           </div>

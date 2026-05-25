@@ -364,20 +364,22 @@ const OtherExpenses = () => {
                     <td>{expense.paymentMethod || "Cash"}</td>
                     <td>{expense.description || "-"}</td>
                     <td className="text-center">
-                      <button
-                        className="btn btn-sm btn-warning me-2"
-                        onClick={() => openEditModal(expense)}
-                        title="Edit Expense"
-                      >
-                        ✏️ Edit
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleDelete(expense._id)}
-                        title="Delete Expense"
-                      >
-                        🗑️ Delete
-                      </button>
+                      <div className="d-flex gap-2">
+                        <button
+                          className="btn btn-sm btn-warning me-2"
+                          onClick={() => openEditModal(expense)}
+                          title="Edit Expense"
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(expense._id)}
+                          title="Delete Expense"
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))

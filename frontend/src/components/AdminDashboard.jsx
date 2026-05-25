@@ -95,7 +95,7 @@ const AdminDashboard = () => {
           break;
       }
 
-      const res = await axios.get("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/admin/summary", {
+      const res = await axios.get("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/admin/summary", {
         headers: { Authorization: `Bearer ${token}` },
         params: payload
       });
@@ -436,7 +436,7 @@ const AdminDashboard = () => {
         ].map((card, idx) => (
           <div className="col-6 col-md-3" key={idx}>
             <div
-              className="card text-white shadow h-100"
+              className="card stat-card text-white shadow h-100"
               style={{
                 background: `linear-gradient(135deg, ${card.bg} 0%, ${card.bg}BB 100%)`,
                 border: "none",

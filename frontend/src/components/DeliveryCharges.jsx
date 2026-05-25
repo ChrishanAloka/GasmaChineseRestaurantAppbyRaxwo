@@ -165,18 +165,20 @@ const DeliveryCharges = () => {
                     <td>{dc.placeName}</td>
                     <td>{symbol}{dc.charge.toFixed(2)}</td>
                     <td className="text-center">
-                      <button
-                        className="btn btn-sm btn-warning me-2"
-                        onClick={() => startEdit(dc)}
-                      >
-                        ✏️ Edit
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleDelete(dc._id)}
-                      >
-                        🗑️ Delete
-                      </button>
+                      <div className="d-flex gap-2">
+                        <button
+                          className="btn btn-sm btn-warning me-2"
+                          onClick={() => startEdit(dc)}
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          className="btn btn-sm btn-danger"
+                          onClick={() => handleDelete(dc._id)}
+                        >
+                          🗑️ Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

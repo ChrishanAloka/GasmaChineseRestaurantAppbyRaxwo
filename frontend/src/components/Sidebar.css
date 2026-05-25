@@ -513,11 +513,17 @@ body {
 }
 
 /* ========== GLOBAL CARD / COMPONENT UPGRADE ========== */
-.card:not([class*="bg-"]) {
+.card:not([class*="bg-"]):not(.stat-card) {
   border: 1px solid var(--mist) !important;
   border-radius: var(--radius) !important;
   box-shadow: var(--shadow-sm) !important;
   background: var(--pearl) !important;
+}
+
+/* Stat cards with custom bg - never override */
+.stat-card {
+  border: none !important;
+  border-radius: 12px !important;
 }
 
 .card:hover {
