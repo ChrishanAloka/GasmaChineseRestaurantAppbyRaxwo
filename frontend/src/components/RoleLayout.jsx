@@ -224,15 +224,16 @@ const RoleLayout = () => {
           onMouseLeave={() => !isMobile && !sidebarOpen && setIsHovered(false)}
         >
           <div className="sidebar-header d-flex align-items-center">
+            <img
+              src="/logo.jpg"
+              alt="Logo"
+              className="sidebar-logo rounded-circle flex-shrink-0"
+            />
             {isSidebarExpanded && (
-              <>
-                <img
-                  src="/logo.jpg"
-                  alt="Logo"
-                  className="sidebar-logo rounded-circle me-2"
-                />
-                <h3 className="justify-content-left sidebar-title mb-0">Gasma Chinese Restaurant-RMS</h3>
-              </>
+              <div className="sidebar-brand ms-2">
+                <div className="sidebar-brand-name">Gasma</div>
+                <div className="sidebar-brand-sub">Chinese Restaurant</div>
+              </div>
             )}
           </div>
           <ul className="sidebar-menu">{renderSidebarMenu()}</ul>

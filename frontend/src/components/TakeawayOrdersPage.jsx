@@ -3,6 +3,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import useNotifications from "../hooks/useNotification";
 import ReceiptModal from "./ReceiptModal";
+import { FaEye, FaEdit } from "react-icons/fa";
 
 const TakeawayOrdersPage = () => {
   const { sendNotification } = useNotifications(); // ✅ Use the hook
@@ -41,7 +42,7 @@ const TakeawayOrdersPage = () => {
       };
       if (filterStatus) params.status = filterStatus;
 
-      const res = await axios.get("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/cashier/takeaway-orders", {
+      const res = await axios.get("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/cashier/takeaway-orders", {
         headers: { Authorization: `Bearer ${token}` },
         params
       });
@@ -67,7 +68,7 @@ const TakeawayOrdersPage = () => {
   const fetchDrivers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/drivers", {
+      const res = await axios.get("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/drivers", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setDrivers(res.data);
@@ -96,7 +97,7 @@ const TakeawayOrdersPage = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.put(
-        `https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/order/${editingOrderId}/delivery-status`,
+        `https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/order/${editingOrderId}/delivery-status`,
         editData,
         {
           headers: {
@@ -256,7 +257,7 @@ const TakeawayOrdersPage = () => {
                             className="btn btn-sm btn-primary me-2"
                             onClick={() => setSelectedOrder(order)}
                           >
-                            View
+                            <FaEye className="me-1" />View
                           </button>
 
                           {canEdit && (
@@ -264,7 +265,7 @@ const TakeawayOrdersPage = () => {
                               className="btn btn-sm btn-warning"
                               onClick={() => openEditModal(order)}
                             >
-                              Edit
+                              <FaEdit className="me-1" />Edit
                             </button>
                           )}
                         </div>
