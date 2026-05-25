@@ -257,7 +257,7 @@ const TakeawayOrdersPage = () => {
                             className="btn btn-sm btn-primary me-2"
                             onClick={() => setSelectedOrder(order)}
                           >
-                            <FaEye className="me-2" />View
+                            <FaEye style={{ verticalAlign: "middle", marginBottom: "2px" }} className="me-1" />View
                           </button>
 
                           {canEdit && (
@@ -265,7 +265,7 @@ const TakeawayOrdersPage = () => {
                               className="btn btn-sm btn-warning"
                               onClick={() => openEditModal(order)}
                             >
-                              <FaEdit className="me-2" />Edit
+                              <FaEdit style={{ verticalAlign: "middle", marginBottom: "2px" }} className="me-1" />Edit
                             </button>
                           )}
                         </div>

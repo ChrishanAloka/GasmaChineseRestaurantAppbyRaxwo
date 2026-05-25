@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaEdit, FaTrash, FaBoxOpen } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -825,17 +826,17 @@ const MenuManagement = () => {
                     <span className={`badge ${getStatusLabelClass(status)}`}>{status}</span>
                   </p>
                   <div className="d-flex gap-2 mt-auto">
-                    <button className="btn btn-primary btn-sm" onClick={() => openEditModal(menu)}>
-                      Edit
+                    <button className="btn btn-primary btn-sm d-inline-flex align-items-center gap-1" onClick={() => openEditModal(menu)}>
+                      <FaEdit style={{ marginBottom: "1px" }} />Edit
                     </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(menu._id)}>
-                      Delete
+                    <button className="btn btn-danger btn-sm d-inline-flex align-items-center gap-1" onClick={() => handleDelete(menu._id)}>
+                      <FaTrash style={{ marginBottom: "1px" }} />Delete
                     </button>
                     <button
-                      className="btn btn-success btn-sm"
+                      className="btn btn-success btn-sm d-inline-flex align-items-center gap-1"
                       onClick={() => openRestockModal(menu)}
                     >
-                      Restock
+                      <FaBoxOpen style={{ marginBottom: "1px" }} />Restock
                     </button>
                   </div>
                 </div>
