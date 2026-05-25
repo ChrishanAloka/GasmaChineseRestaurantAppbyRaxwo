@@ -6,8 +6,9 @@ import {
   FaBars, FaSignOutAlt, FaTachometerAlt, FaUsers, FaKey, FaFileInvoice,
   FaChartBar, FaUserTie, FaCalendarCheck, FaTruck, FaMoneyBillWave,
   FaMoneyCheckAlt, FaUtensils, FaDollarSign, FaShoppingCart, FaHistory,
-  FaBookOpen, FaClipboardList, FaUserCircle, FaPercentage, FaTruckLoading, 
-  FaFirstOrder,FaMotorcycle,FaUserClock,FaCashRegister,FaBookReader,FaCoins,FaWallet,FaPrint,FaUserTag,FaDatabase
+  FaBookOpen, FaClipboardList, FaUserCircle, FaPercentage, FaTruckLoading,
+  FaFirstOrder, FaMotorcycle, FaUserClock, FaCashRegister, FaBookReader,
+  FaCoins, FaWallet, FaPrint, FaUserTag, FaDatabase, FaChevronDown, FaChevronRight
 } from "react-icons/fa";
 import "./Sidebar.css";
 import NotificationCenter from "./NotificationCenter";
@@ -24,13 +25,13 @@ const RoleLayout = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isHovered, setIsHovered] = useState(false);
   const { refreshed, markAsRefreshed } = useRefreshStatus();
+  const [openGroups, setOpenGroups] = useState({});
 
   const handleHardRefresh = async () => {
     await markAsRefreshed();
-    window.location.reload(); // hard reload
+    window.location.reload();
   };
 
-  // Auto detect mobile view
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768;
@@ -41,7 +42,6 @@ const RoleLayout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close dropdown if clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -58,10 +58,49 @@ const RoleLayout = () => {
     const isActive = location.pathname === to;
     return (
       <li title={!isSidebarExpanded ? label : ""} key={to}>
-        <Link to={to} className={`menu-link ${isActive ? "active" : ""}`}>
+        <Link
+          to={to}
+          className={`menu-link ${isActive ? "active" : ""}`}
+          onClick={() => isMobile && setSidebarOpen(false)}
+        >
           <Icon className="menu-icon" />
           {isSidebarExpanded && <span className="menu-label">{label}</span>}
         </Link>
+      </li>
+    );
+  };
+
+  const toggleGroup = (groupKey) => {
+    setOpenGroups(prev => ({ ...prev, [groupKey]: !prev[groupKey] }));
+  };
+
+  const createGroup = (groupKey, label, Icon, items) => {
+    // Check if any item in this group is active
+    const isGroupActive = items.some(([to]) => location.pathname === to);
+    const isOpen = openGroups[groupKey] ?? isGroupActive;
+
+    if (!isSidebarExpanded) {
+      // In collapsed mode, show all items flat (no group headers)
+      return items.map(([to, itemLabel, ItemIcon]) => createMenuItem(to, itemLabel, ItemIcon));
+    }
+
+    return (
+      <li key={groupKey} className="menu-group">
+        <button
+          className={`menu-group-header ${isGroupActive ? "active" : ""}`}
+          onClick={() => toggleGroup(groupKey)}
+        >
+          <Icon className="menu-icon" />
+          <span className="menu-label">{label}</span>
+          <span className="group-chevron">
+            {isOpen ? <FaChevronDown size={10} /> : <FaChevronRight size={10} />}
+          </span>
+        </button>
+        {isOpen && (
+          <ul className="menu-sub">
+            {items.map(([to, itemLabel, ItemIcon]) => createMenuItem(to, itemLabel, ItemIcon))}
+          </ul>
+        )}
       </li>
     );
   };
@@ -73,56 +112,78 @@ const RoleLayout = () => {
           <>
             {createMenuItem("/admin", "Dashboard", FaTachometerAlt)}
             {createMenuItem("/cashier/today", "Daily Report", FaBookOpen)}
-            {createMenuItem("/cashier", "Order Management", FaCashRegister)}
-            {createMenuItem("/kitchen/menu", "Manage Menu", FaClipboardList)}
-            {createMenuItem("/kitchen", "Live Orders", FaShoppingCart)}
-            {createMenuItem("/cashier/orders", "Order History", FaHistory)}
-            {createMenuItem("/cashier/takeaway-orders", "Takeaway Orders", FaFirstOrder)}
-            {createMenuItem("/cashier-summery", "Cashier Summery", FaBookReader)}
 
-            {createMenuItem("/admin/users", "User Management", FaUsers)}
-            {createMenuItem("/admin/report", "Monthly Report", FaChartBar)}
-            {createMenuItem("/admin/customers", "Custoemrs", FaUserTag)}
-            {createMenuItem("/admin/employees", "Employees", FaUserTie)}
-            
-            {createMenuItem("/kitchen/attendance/add", "Live Attendance", FaUserClock)}
-            {createMenuItem("/admin/attendance", "Attendance History", FaCalendarCheck)}
-            {createMenuItem("/cashier/driver-register", "Takeaway Driver Register", FaMotorcycle)}
-            {createMenuItem("/admin/suppliers", "Suppliers Register", FaTruck)}
-            {createMenuItem("/admin/expenses", "Supplier Expenses", FaMoneyBillWave)}
-            {createMenuItem("/cashier/other-income", "Other Incomes", FaCoins)}
-            {createMenuItem("/cashier/other-expences", "Other Expences", FaWallet)}
-            {createMenuItem("/admin/bills", "Restaurant Bills", FaFileInvoice)}            
-            {createMenuItem("/admin/salaries", "Salary Payments", FaMoneyCheckAlt)}
-            {createMenuItem("/admin/service-charge", "Service Charge", FaPercentage)}
-            {createMenuItem("/admin/delivery-charges", "Delivery Charge", FaTruckLoading)}
-            
-            
-            {createMenuItem("/printer-settings", "Printer Settings", FaPrint)}
-            {createMenuItem("/admin/signup-key", "Signup Key", FaKey)}
-            {createMenuItem("/admin/currency", "Currency", FaDollarSign)}
-            {createMenuItem("/admin/db-Status", "Database Status", FaDatabase)}
-            
-            {createMenuItem("/admin/refresh-update", "Update Refresh", FaRedo)}
+            {createGroup("orders", "Orders", FaShoppingCart, [
+              ["/cashier", "Order Management", FaCashRegister],
+              ["/kitchen", "Live Orders", FaShoppingCart],
+              ["/cashier/orders", "Order History", FaHistory],
+              ["/cashier/takeaway-orders", "Takeaway Orders", FaFirstOrder],
+              ["/cashier-summery", "Cashier Summary", FaBookReader],
+            ])}
+
+            {createGroup("menu", "Menu & Kitchen", FaUtensils, [
+              ["/kitchen/menu", "Manage Menu", FaClipboardList],
+            ])}
+
+            {createGroup("people", "People", FaUserTie, [
+              ["/admin/users", "User Management", FaUsers],
+              ["/admin/customers", "Customers", FaUserTag],
+              ["/admin/employees", "Employees", FaUserTie],
+              ["/cashier/driver-register", "Driver Register", FaMotorcycle],
+            ])}
+
+            {createGroup("attendance", "Attendance", FaCalendarCheck, [
+              ["/kitchen/attendance/add", "Live Attendance", FaUserClock],
+              ["/admin/attendance", "Attendance History", FaCalendarCheck],
+            ])}
+
+            {createGroup("finance", "Finance", FaMoneyBillWave, [
+              ["/cashier/other-income", "Other Incomes", FaCoins],
+              ["/cashier/other-expences", "Other Expenses", FaWallet],
+              ["/admin/expenses", "Supplier Expenses", FaMoneyBillWave],
+              ["/admin/bills", "Restaurant Bills", FaFileInvoice],
+              ["/admin/salaries", "Salary Payments", FaMoneyCheckAlt],
+            ])}
+
+            {createGroup("suppliers", "Suppliers", FaTruck, [
+              ["/admin/suppliers", "Suppliers Register", FaTruck],
+            ])}
+
+            {createGroup("reports", "Reports", FaChartBar, [
+              ["/admin/report", "Monthly Report", FaChartBar],
+            ])}
+
+            {createGroup("settings", "Settings", FaKey, [
+              ["/admin/service-charge", "Service Charge", FaPercentage],
+              ["/admin/delivery-charges", "Delivery Charge", FaTruckLoading],
+              ["/printer-settings", "Printer Settings", FaPrint],
+              ["/admin/signup-key", "Signup Key", FaKey],
+              ["/admin/currency", "Currency", FaDollarSign],
+              ["/admin/db-Status", "Database Status", FaDatabase],
+              ["/admin/refresh-update", "Update Refresh", FaRedo],
+            ])}
           </>
         );
       case "cashier":
         return (
           <>
             {createMenuItem("/cashier", "Order Management", FaCashRegister)}
-            {createMenuItem("/kitchen/menu", "Manage Menu", FaClipboardList)}
             {createMenuItem("/kitchen", "Live Orders", FaShoppingCart)}
             {createMenuItem("/cashier/orders", "Order History", FaHistory)}
             {createMenuItem("/cashier/takeaway-orders", "Takeaway Orders", FaFirstOrder)}
             {createMenuItem("/cashier/today", "Daily Report", FaBookOpen)}
-            {createMenuItem("/cashier-summery", "Cashier Summery", FaBookReader)}
-            {createMenuItem("/cashier/other-income", "Other Incomes", FaCoins)}
-            {createMenuItem("/cashier/other-expences", "Other Expences", FaWallet)}
+            {createMenuItem("/cashier-summery", "Cashier Summary", FaBookReader)}
+
+            {createGroup("finance", "Finance", FaMoneyBillWave, [
+              ["/cashier/other-income", "Other Incomes", FaCoins],
+              ["/cashier/other-expences", "Other Expenses", FaWallet],
+            ])}
+
+            {createMenuItem("/kitchen/menu", "Manage Menu", FaClipboardList)}
             {createMenuItem("/cashier/driver-register", "Driver Register", FaMotorcycle)}
             {createMenuItem("/kitchen/kitchen-requestsForm", "Admin Requests", FaUtensils)}
             {createMenuItem("/kitchen/attendance/add", "Live Attendance", FaUserClock)}
             {createMenuItem("/printer-settings", "Printer Settings", FaPrint)}
-            
           </>
         );
       case "kitchen":
@@ -141,16 +202,13 @@ const RoleLayout = () => {
   };
 
   const getSidebarClass = () => {
-  // Open if: user toggled it OR (hovering + desktop + not manually opened)
     const isOpen = sidebarOpen || (isHovered && !isMobile);
     return isOpen ? "open" : "collapsed";
   };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
-    if (!sidebarOpen) {
-      setIsHovered(false); // close hover if manually opening
-    }
+    if (!sidebarOpen) setIsHovered(false);
   };
 
   return (
@@ -160,10 +218,10 @@ const RoleLayout = () => {
         <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
       )}
       {!isMobile || sidebarOpen ? (
-        <aside 
-        className={`sidebar ${getSidebarClass()}`}
-        onMouseEnter={() => !isMobile && !sidebarOpen && setIsHovered(true)}
-        onMouseLeave={() => !isMobile && !sidebarOpen && setIsHovered(false)}
+        <aside
+          className={`sidebar ${getSidebarClass()}`}
+          onMouseEnter={() => !isMobile && !sidebarOpen && setIsHovered(true)}
+          onMouseLeave={() => !isMobile && !sidebarOpen && setIsHovered(false)}
         >
           <div className="sidebar-header d-flex align-items-center">
             {isSidebarExpanded && (
@@ -188,19 +246,21 @@ const RoleLayout = () => {
               <FaBars />
             </button>
             <span className="session-timer">⏳ Session expires in: {countdown}</span>
-            <div >
+            <div>
               <NotificationCenter />
             </div>
-            <button 
+            <button
               className="btn btn-outline-secondary ms-2 d-flex align-items-center justify-content-center position-relative"
               onClick={handleHardRefresh}
               title="Hard refresh page"
-              style={{ width: '36px', height: '36px', padding: 0 }}
+              style={{ width: "36px", height: "36px", padding: 0 }}
             >
               <FaRedo />
               {!refreshed && (
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                      style={{ fontSize: '0.65em', minWidth: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span
+                  className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style={{ fontSize: "0.65em", minWidth: "16px", height: "16px", display: "flex", alignItems: "center", justifyContent: "center" }}
+                >
                   1
                 </span>
               )}
@@ -208,7 +268,6 @@ const RoleLayout = () => {
           </div>
           <div className="navbar-right" ref={dropdownRef}>
             <div className="user-dropdown">
-              
               <div
                 className="user-toggle"
                 onClick={() => setUserDropdown(!userDropdown)}

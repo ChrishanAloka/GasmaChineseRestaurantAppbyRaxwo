@@ -95,7 +95,7 @@ const AdminDashboard = () => {
           break;
       }
 
-      const res = await axios.get("https://gasmachineserestaurantappbyraxwo.onrender.com/api/auth/admin/summary", {
+      const res = await axios.get("https://gasmachineserestaurantapp-7aq4.onrender.com/api/auth/admin/summary", {
         headers: { Authorization: `Bearer ${token}` },
         params: payload
       });
@@ -374,99 +374,81 @@ const AdminDashboard = () => {
       </div>
 
       {/* Summary Cards */}
-      {/* <div className="row g-3 mb-5 row-cols-5"> */}
       <div className="row g-3 mb-5">
         {[
           {
-            label:
-              // "Total Orders / Delivery Orders", 
-              (
-                <>
-                  Total Orders
-                  <br />
-                </>
-              ),
-            value: `${summary.totalOrders} `, color: "primary", icon: "🛒"
+            label: "Total Orders",
+            value: `${summary.totalOrders}`,
+            bg: "#1565C0",
+            icon: "🛒"
           },
           {
-            label:
-              // "Orders Income ( Net Income )",
-              (
-                <>
-                  Orders Income
-                  <br />
-                  ( Net Income )
-                </>
-              ),
-            value:
-              // `${symbol}${formatCurrency(summary.totalOrdersIncome)}   (${symbol}${formatCurrency(summary.totalOrdersNetIncome)})`,
-              (
-                <>
-                  {symbol}{formatCurrency(summary.totalOrdersIncome)}
-                  <br />
-                  ( {symbol}{formatCurrency(summary.totalOrdersNetIncome)} )
-                </>
-              ),
-            color: "primary", icon: "🛒"
+            label: "Orders Income",
+            sub: `Net: ${symbol}${formatCurrency(summary.totalOrdersNetIncome)}`,
+            value: `${symbol}${formatCurrency(summary.totalOrdersIncome)}`,
+            bg: "#1976D2",
+            icon: "💳"
           },
           {
-            label:
-              // "Total Delevery Charges",
-              (
-                <>
-                  Delivery Orders
-                  <br />
-                  ( Total Delevery Charges )
-
-                </>
-              ),
-            value:
-              // `${symbol}${formatCurrency(summary.totaldeliveryOrdersIncome)}`, 
-              (
-                <>
-                  {summary.totaldeliveryOrders}
-                  <br />
-                  ( {symbol}{formatCurrency(summary.totaldeliveryOrdersIncome)} )
-                </>
-              ),
-            color: "primary", icon: "🚚"
+            label: "Delivery Orders",
+            sub: `Charges: ${symbol}${formatCurrency(summary.totaldeliveryOrdersIncome)}`,
+            value: `${summary.totaldeliveryOrders}`,
+            bg: "#0277BD",
+            icon: "🚚"
           },
           {
-            label: (
-              <>
-                Total Dine-In Orders
-                <br />
-                ( Total Service Charge )
-              </>
-            ),
-            value: (
-              <>
-                {summary.totalTableOrders}
-                <br />
-                ( {symbol}{formatCurrency(summary.totalServiceChargeIncome)} )
-              </>
-            ),
-            color: "primary",
-            icon: "%"
+            label: "Dine-In Orders",
+            sub: `Service: ${symbol}${formatCurrency(summary.totalServiceChargeIncome)}`,
+            value: `${summary.totalTableOrders}`,
+            bg: "#00838F",
+            icon: "🍽️"
           },
-          { label: "Other Income", value: `${symbol}${formatCurrency(summary.totalOtherIncome)}`, color: "success", icon: "🎁" }, // ✅ NEW
-          { label: "Other Expenses", value: `${symbol}${formatCurrency(summary.totalOtherExpenses)}`, color: "danger", icon: "🔧" }, // ✅ NEW
-
-          { label: "Total Income", value: `${symbol}${formatCurrency(summary.totalIncome)}`, color: "success", icon: "💰" },
-          { label: "Total Cost", value: `${symbol}${formatCurrency(summary.totalCost)}`, color: "danger", icon: "📉" },
+          {
+            label: "Other Income",
+            value: `${symbol}${formatCurrency(summary.totalOtherIncome)}`,
+            bg: "#2E7D32",
+            icon: "🎁"
+          },
+          {
+            label: "Total Income",
+            value: `${symbol}${formatCurrency(summary.totalIncome)}`,
+            bg: "#1B5E20",
+            icon: "💰"
+          },
+          {
+            label: "Other Expenses",
+            value: `${symbol}${formatCurrency(summary.totalOtherExpenses)}`,
+            bg: "#E65100",
+            icon: "🔧"
+          },
+          {
+            label: "Total Cost",
+            value: `${symbol}${formatCurrency(summary.totalCost)}`,
+            bg: "#C62828",
+            icon: "📉"
+          },
           {
             label: "Net Profit",
             value: `${summary.netProfit >= 0 ? "+" : "-"}${symbol}${formatCurrency(Math.abs(summary.netProfit))}`,
-            color: summary.netProfit >= 0 ? "info" : "warning",
+            bg: summary.netProfit >= 0 ? "#4527A0" : "#B71C1C",
             icon: summary.netProfit >= 0 ? "📈" : "⚠️",
           }
         ].map((card, idx) => (
-          <div className="col-md-3" key={idx}>
-            <div className={`card bg-${card.color} text-white shadow-sm h-100`}>
-              <div className="card-body text-center">
-                <div className="fs-3">{card.icon}</div>
-                <h6 className="mt-2 fw-bold">{card.label}</h6>
-                <h4 className="fw-bold">{card.value}</h4>
+          <div className="col-6 col-md-3" key={idx}>
+            <div
+              className="card text-white shadow h-100"
+              style={{
+                background: `linear-gradient(135deg, ${card.bg} 0%, ${card.bg}BB 100%)`,
+                border: "none",
+                borderRadius: "12px",
+                borderTop: "3px solid rgba(255,255,255,0.25)",
+              }}
+            >
+              <div className="card-body text-center py-3 px-2">
+                <div style={{ fontSize: "1.6rem", marginBottom: "4px" }}>{card.icon}</div>
+                <div style={{ fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase", opacity: 0.85, marginBottom: "4px" }}>{card.label}</div>
+                <div style={{ fontSize: "1.2rem", fontWeight: 700 }}>{card.value}</div>
+                {card.sub && <div style={{ fontSize: "0.72rem", opacity: 0.8, marginTop: "3px" }}>{card.sub}</div>}
               </div>
             </div>
           </div>
