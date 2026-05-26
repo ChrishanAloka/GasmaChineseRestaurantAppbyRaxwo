@@ -91,13 +91,23 @@ body {
   gap: 0;
   padding: 14px 14px;
   border-bottom: 1px solid rgba(201,168,76,0.2);
-  background: rgba(0,0,0,0.15);
+  /* Fully opaque so scrolled content never shows through */
+  background: #141424;
   min-height: 72px;
   flex-shrink: 0;
   position: sticky;
   top: 0;
   z-index: 10;
   overflow: hidden;
+  /* Hard clip — nothing bleeds past the header edge */
+  isolation: isolate;
+  /* Shadow separates header from scrolled content below */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+/* Ensure the sidebar scroll container doesn't paint under sticky header */
+.sidebar > .sidebar-header + * {
+  margin-top: 0;
 }
 
 .sidebar-logo {
